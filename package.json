@@ -1,0 +1,30 @@
+{
+  "name": "auth-service-front-end",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "serve": "npm run build && serve -s build",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "dependencies": {
+    "axios": "0.18.0",
+    "basscss": "8.0.10",
+    "basscss-addons": "1.0.0",
+    "dayjs": "1.7.7",
+    "js-cookie": "2.2.0",
+    "lodash": "4.17.11",
+    "react": "16.6.3",
+    "react-dom": "16.6.3",
+    "react-router-dom": "4.3.1",
+    "react-scripts": "2.1.1",
+    "serve": "10.1.1"
+  }
+}
