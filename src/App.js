@@ -1,12 +1,10 @@
 import React, { Component, Suspense } from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { history } from './lib/history';
 import routes from './routes';
-import Loading from './components/routes/Loading';
-import ProtectedRoute from './components/routes/ProtectedRoute';
-import UnprotectedRoute from './components/routes/UnprotectedRoute';
-import NotFound from './components/routes/NotFound';
+import Loading from './components/layout/Loading';
+import NotFound from './pages/system/NotFound';
 import AccountSetup from './pages/auth/AccountSetup';
 import { refreshSession, checkAuthentication } from './data/auth';
 
@@ -85,29 +83,35 @@ class App extends Component {
                     );
                   }
 
-                  if (account && !account.username) {
+                  if (!route.unprotected && !account) {
                     return (
-                      <AccountSetup
-                        location={location}
-                        match={match}
-                        account={account}
-                        onUpdateAuth={this.handleUpdateAccount}
+                      <Redirect
+                        to={{
+                          pathname: '/login',
+                          state: { referrer: location },
+                        }}
                       />
                     );
                   }
 
-                  const RouteWrapper = route.unprotected ? UnprotectedRoute : ProtectedRoute;
+                  const props = {
+                    onUpdateAuth: this.handleUpdateAccount,
+                    location,
+                    match,
+                    account,
+                  };
+
+                  if (account && !account.username) {
+                    return (
+                      <AccountSetup
+                        {...props}
+                      />
+                    );
+                  }
 
                   return (
-                    <RouteWrapper
-                      location={location}
-                      match={match}
-                      account={account}
-                      onUpdateAuth={this.handleUpdateAccount}
-                    >
-                      <route.component />
-                    </RouteWrapper>
-                  )
+                    <route.component {...props} />
+                  );
                 }}
               />
             ))}

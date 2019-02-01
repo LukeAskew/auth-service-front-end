@@ -17,7 +17,7 @@ export async function getAccount() {
  */
 export async function checkAuthentication() {
   if (!Cookies.get('tok')) {
-    return Object.reject();
+    return Promise.reject();
   }
 
   return getAccount();
